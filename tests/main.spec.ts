@@ -1,9 +1,7 @@
 // tests\main.spec.ts
 
 import { describe, it, expect } from "vitest";
-import { getWinner } from "../src/main";
-
-// Option 1: If getWinner is not exported, add `export` before the function in main.ts
+import { getWinner } from "~/src/main";
 
 describe("getWinner", () => {
   it("should return Draw for same moves", () => {

@@ -15,7 +15,6 @@ export default defineConfig({
     include: ["tests/**/*.spec.ts"],
     environment: "jsdom",
     reporters: ["verbose"],
-    setupFiles: ["./tests/setupTest.ts"],
   },
   resolve: {
     alias: {
