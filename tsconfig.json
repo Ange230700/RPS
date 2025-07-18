@@ -1,3 +1,5 @@
+// tsconfig.json
+
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -19,7 +21,12 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["./*"]
+    }
   },
   "include": ["src"]
 }

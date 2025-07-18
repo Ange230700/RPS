@@ -1,0 +1,4 @@
+npx validate-branch-name
+npm run test
+npx lint-staged
+npm run lint
