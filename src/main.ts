@@ -13,8 +13,20 @@ if (currentFile === mainFile) {
     output: process.stdout,
   });
 
-  rl.question("Choose rock, paper, or scissors: ", (answer) => {
-    console.log(playRound(answer));
-    rl.close();
-  });
+  function askRound() {
+    rl.question(
+      "Choose rock, paper, or scissors (or type 'quit' to exit): ",
+      (answer) => {
+        if (answer.toLowerCase() === "quit") {
+          console.log("Thanks for playing!");
+          rl.close();
+          return;
+        }
+        console.log(playRound(answer));
+        askRound();
+      },
+    );
+  }
+
+  askRound();
 }
