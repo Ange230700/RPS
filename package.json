@@ -10,7 +10,7 @@
     "clean": "rm -rf node_modules package-lock.json dist",
     "test": "vitest",
     "lint": "eslint --cache --fix --ext .js,.mjs,.cjs,.ts,.mts,.cts .",
-    "start": "tsx watch src/main.tsx",
+    "start": "tsx watch src/main.ts",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "prepare": "husky"

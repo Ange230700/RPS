@@ -1,31 +1,62 @@
 // src\main.ts
 
-// Define possible moves
-type Move = "rock" | "paper" | "scissors";
+import * as readline from "readline";
 
-// Function to determine the winner
+type Move = "rock" | "paper" | "scissors";
+type Result = "Player wins" | "Computer wins" | "Draw";
+
+export function getComputerMove(): Move {
+  const moves: Move[] = ["rock", "paper", "scissors"];
+  const randomIndex = Math.floor(Math.random() * moves.length);
+  return moves[randomIndex];
+}
+
 export function getWinner(
-  player1: Move,
-  player2: Move,
-): "Player 1 wins" | "Player 2 wins" | "Draw" {
-  if (player1 === player2) {
+  player: string,
+  computer: string,
+): Result | "Invalid input" {
+  const moves = ["rock", "paper", "scissors"];
+  if (!moves.includes(player) || !moves.includes(computer)) {
+    return "Invalid input";
+  }
+
+  if (player === computer) {
     return "Draw";
   }
 
   if (
-    (player1 === "rock" && player2 === "scissors") ||
-    (player1 === "scissors" && player2 === "paper") ||
-    (player1 === "paper" && player2 === "rock")
+    (player === "rock" && computer === "scissors") ||
+    (player === "scissors" && computer === "paper") ||
+    (player === "paper" && computer === "rock")
   ) {
-    return "Player 1 wins";
+    return "Player wins";
   }
 
-  return "Player 2 wins";
+  return "Computer wins";
 }
 
-// Example usage
-const player1Move: Move = "rock";
-const player2Move: Move = "scissors";
-const result = getWinner(player1Move, player2Move);
-console.log(`Player 1 chose ${player1Move}, Player 2 chose ${player2Move}.`);
-console.log(result);
+export function playRound(
+  input: string,
+  getCompMove: () => Move = getComputerMove,
+): string {
+  const playerMove = input.trim().toLowerCase();
+  const moves = ["rock", "paper", "scissors"];
+  if (!moves.includes(playerMove)) {
+    return "Invalid move. Please choose rock, paper, or scissors.";
+  }
+  const computerMove = getCompMove();
+  const result = getWinner(playerMove, computerMove);
+  return `Computer chose ${computerMove}.\n${result}`;
+}
+
+if (require.main === module) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  rl.question("Choose rock, paper, or scissors: ", (answer) => {
+    console.log(playRound(answer));
+    rl.close();
+  });
+}
