@@ -54,11 +54,12 @@ it("should alert the result of playRound with user's input", async () => {
   await import("../src/index.ts");
 
   // alert should have been called once, with the game result containing "Computer chose"
-  expect(alertMock).toHaveBeenCalledTimes(2);
+  expect(alertMock).toHaveBeenCalledTimes(3);
   expect(alertMock.mock.calls[0][0]).toMatch(
     /Computer chose (rock|paper|scissors)\./,
   );
-  expect(alertMock.mock.calls[1][0]).toMatch(
+  expect(alertMock.mock.calls[1][0]).toMatch(/Score so far:/);
+  expect(alertMock.mock.calls[2][0]).toMatch(
     /Game ended\. Thanks for playing!/,
   );
 });
@@ -70,5 +71,7 @@ it("should not alert if user cancels prompt", async () => {
 
   // Update: should be called once with goodbye message
   expect(alertMock).toHaveBeenCalledTimes(1);
-  expect(alertMock).toHaveBeenCalledWith("Game ended. Thanks for playing!");
+  expect(alertMock).toHaveBeenCalledWith(
+    `Game ended. Thanks for playing!\n\nFinal score:\nYou: 0\nComputer: 0\nDraws: 0`,
+  );
 });
