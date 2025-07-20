@@ -1,69 +1,66 @@
 // src\index.ts
 
 import type { Move } from "~/types";
-import { playRound, getComputerMove, getWinner } from "~/utils";
+import {
+  playRound,
+  getComputerMove,
+  handleRoundResult,
+  showScore,
+  showFinalScore,
+} from "~/utils";
 
 declare global {
   var __MOCK_COMP_MOVE__: (() => Move) | undefined;
 }
 
-function playGame(rounds: number) {
+function playGame(rounds: number): void {
   let count = 0;
   let playerScore = 0;
   let computerScore = 0;
   let draws = 0;
   const winScore = Math.floor(rounds / 2) + 1;
 
-  while (true) {
+  while (count < rounds && playerScore < winScore && computerScore < winScore) {
     const input = prompt(
       `Choose rock, paper, or scissors: (Round ${count + 1} of max ${rounds})`,
     );
+
     if (!input) {
       alert(
         `Game ended. Thanks for playing!\n\nFinal score:\nYou: ${playerScore}\nComputer: ${computerScore}\nDraws: ${draws}`,
       );
       return;
     }
+
     const getCompMove =
       typeof globalThis.__MOCK_COMP_MOVE__ === "function"
         ? globalThis.__MOCK_COMP_MOVE__
         : getComputerMove;
     const result = playRound(input, getCompMove);
-    alert(result);
 
-    const regex = /Computer chose (\w+)\./;
-    const match = regex.exec(result);
-    const computerMove = match ? match[1] : "";
-    const playerMove = input.trim().toLowerCase();
-    const winner = getWinner(playerMove, computerMove);
+    ({ playerScore, computerScore, draws } = handleRoundResult(
+      result,
+      input,
+      playerScore,
+      computerScore,
+      draws,
+    ));
 
-    if (winner === "Player wins") playerScore++;
-    else if (winner === "Computer wins") computerScore++;
-    else if (winner === "Draw") draws++;
-
-    alert(
-      `Score so far:\nYou: ${playerScore}\nComputer: ${computerScore}\nDraws: ${draws}`,
-    );
+    showScore(playerScore, computerScore, draws);
     count++;
+  }
 
-    // End early if anyone reached winScore
-    if (playerScore === winScore || computerScore === winScore) {
-      alert(
-        playerScore === winScore
-          ? `You win the best of ${rounds} series!`
-          : `Computer wins the best of ${rounds} series!`,
-      );
-      alert(
-        `Final score:\nYou: ${playerScore}\nComputer: ${computerScore}\nDraws: ${draws}\nThanks for playing!`,
-      );
-      break;
-    }
-    if (count >= rounds) {
-      alert(
-        `No clear winner after ${rounds} rounds!\nFinal score:\nYou: ${playerScore}\nComputer: ${computerScore}\nDraws: ${draws}`,
-      );
-      break;
-    }
+  if (playerScore === winScore || computerScore === winScore) {
+    alert(
+      playerScore === winScore
+        ? `You win the best of ${rounds} series!`
+        : `Computer wins the best of ${rounds} series!`,
+    );
+    showFinalScore(playerScore, computerScore, draws);
+  } else {
+    alert(
+      `No clear winner after ${rounds} rounds!\nFinal score:\nYou: ${playerScore}\nComputer: ${computerScore}\nDraws: ${draws}`,
+    );
   }
 }
 
