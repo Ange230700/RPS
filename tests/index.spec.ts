@@ -3,15 +3,12 @@
 import { beforeEach, afterEach, it, expect, vi, describe } from "vitest";
 
 describe("Rock-Paper-Scissors Game (Browser UI)", () => {
-  // We have to import *after* mocks so our code picks up the mocks.
   let alertMock: ReturnType<typeof vi.fn>;
   let promptMock: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     process.env.PLAY_GAME = "true";
-    // Reset modules before each test for clean import
     vi.resetModules();
-    // Mock prompt and alert
     alertMock = vi.fn();
     promptMock = vi.fn();
 
@@ -24,35 +21,35 @@ describe("Rock-Paper-Scissors Game (Browser UI)", () => {
   afterEach(() => {
     delete process.env.PLAY_GAME;
     vi.restoreAllMocks();
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (globalThis as any).__MOCK_COMP_MOVE__;
   });
 
   it("triggers playGame when PLAY_GAME is set", async () => {
-    // Set up mocks before import!
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (globalThis as any).prompt
       .mockReturnValueOnce("rock")
       .mockReturnValueOnce(null);
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (globalThis as any).__MOCK_COMP_MOVE__ = () => "scissors";
 
-    // Import after env/mocks
     await import("../src/index.ts");
 
-    // Assert that alert and prompt were called as expected
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expect((globalThis as any).alert).toHaveBeenCalled();
   });
 
   it("should alert the result of playRound with user's input", async () => {
     promptMock
-      .mockReturnValueOnce("1") // best of 1
-      .mockReturnValueOnce("rock") // user move
-      .mockReturnValueOnce(null); // end
+      .mockReturnValueOnce("1")
+      .mockReturnValueOnce("rock")
+      .mockReturnValueOnce(null);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (globalThis as any).__MOCK_COMP_MOVE__ = () => "scissors";
+
     await import("../src/index.ts");
 
     expect(alertMock).toHaveBeenCalledTimes(4);
@@ -65,11 +62,10 @@ describe("Rock-Paper-Scissors Game (Browser UI)", () => {
   });
 
   it("should not alert if user cancels prompt", async () => {
-    promptMock.mockReturnValue(null); // Simulate cancel
+    promptMock.mockReturnValue(null);
 
     await import("../src/index.ts");
 
-    // Update: should be called once with goodbye message
     expect(alertMock).toHaveBeenCalledTimes(1);
     expect(alertMock).toHaveBeenCalledWith(
       `Game ended. Thanks for playing!\n\nFinal score:\nYou: 0\nComputer: 0\nDraws: 0`,
@@ -83,9 +79,9 @@ describe("Rock-Paper-Scissors Game (Browser UI)", () => {
     const alertMock = vi.fn();
     const promptMock = vi
       .fn()
-      .mockReturnValueOnce("3") // best of 3
-      .mockReturnValueOnce("rock") // user move 1: win
-      .mockReturnValueOnce("rock"); // user move 2: win
+      .mockReturnValueOnce("3")
+      .mockReturnValueOnce("rock")
+      .mockReturnValueOnce("rock");
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (globalThis as any).alert = alertMock;
