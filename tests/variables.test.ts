@@ -1,7 +1,11 @@
 // tests\variables.test.ts
 
 import { describe, it, expect, vi } from "vitest";
-import { displayFullName, displayNameAndAge } from "~/utils/variables";
+import {
+  displayFullName,
+  displayMathOperations,
+  displayNameAndAge,
+} from "~/utils/variables";
 
 describe("displayNameAndAge", () => {
   it("should log name and age correctly", () => {
@@ -26,9 +30,23 @@ describe("displayFullName", () => {
   });
 });
 
+describe("displayMathOperations", () => {
+  it("should log sum, difference, product, and quotient of the two numbers", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    displayMathOperations();
+
+    expect(logSpy).toHaveBeenCalledWith("Sum:", 10);
+    expect(logSpy).toHaveBeenCalledWith("Difference:", 6);
+    expect(logSpy).toHaveBeenCalledWith("Product:", 16);
+    expect(logSpy).toHaveBeenCalledWith("Quotient:", 4);
+
+    logSpy.mockRestore();
+  });
+});
+
 // TODO: Test the following function:
 
-// - Level 2: Merge!
-// - Declare two variables `firstName` and `lastName` with your first and last names.
-// - Concatenate these two variables to form your full name and store the result in a variable `fullName`.
-// - Display `fullName` in the console.
+// - Level 3: Math is fantastic
+// - Declare two variables `number1` and `number2` with numerical values of your choice.
+// - Calculate the sum, difference, product, and quotient of these two numbers and store the results in variables `sum`, `difference`, `product`, and `quotient`.
+// - Display the results in the console.
