@@ -54,27 +54,3 @@ export function displayTasks(): string {
   }
   return listeFormatee;
 }
-
-// TODO: Implement the following function:
-
-// - Level 4: Managing a task list
-// - Create an empty array `taskList` using `let`.
-// - Create a function `addTask` that takes a parameter `task` (a string representing a task to be added).
-
-// - Inside the function, add the `task` to the `taskList` array.
-// - Use `const` to declare a variable `messageAdded` that contains the string `“Task added: ” + task`.
-// - The function must return `messageAdded`.
-
-// - Create a function `supprimerTache` that takes a parameter `index` (the index of the task to be deleted from the array).
-// - Check if `index` is a valid number and if it is within the limits of the `listeTaches` array. If not, return an appropriate error string.
-
-// - Delete the task at the specified index from the `listTasks` array.
-// - Use `const` to declare a variable `messageDeleted` that contains the string `“Task deleted at index: ” + index`.
-// - The function must return `messageDeleted`.
-
-// - Create a function `displayTasks` that takes no parameters.
-// - Check if the `taskList` array is empty. If so, return the string `“No tasks to display.”`.
-
-// - Otherwise, use `let` to declare a variable `listeFormatee` that contains a formatted string of all the tasks in `listeTaches`, each on a new line.
-// - The function must return `listeFormatee`.
-// - Test the functions by adding, deleting, and displaying several tasks, and display the results in the console.
