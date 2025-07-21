@@ -27,4 +27,16 @@ export function findElement(array: number[], element: number): string {
   return "Element not found.";
 }
 
+export function calculateCompoundInterest(
+  initialCapital: number,
+  interestRate: number,
+  years: number,
+): number {
+  let totalAmount = initialCapital;
+  for (let i = 0; i < years; i++) {
+    totalAmount = totalAmount * (1 + interestRate / 100);
+  }
+  return totalAmount;
+}
+
 // TODO: Implement the following function:

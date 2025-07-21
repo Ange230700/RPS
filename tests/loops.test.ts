@@ -2,6 +2,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import {
+  calculateCompoundInterest,
   calculateFactorial,
   displayEvenNumbers,
   findElement,
@@ -80,6 +81,29 @@ describe("findElement", () => {
     expect(logSpy).toHaveBeenCalledWith("Element found at index: 1");
     expect(result).toBe("Element found at index: 1");
     logSpy.mockRestore();
+  });
+});
+
+describe("calculateCompoundInterest", () => {
+  it("should calculate compound interest correctly for 1000, 5%, 10 years", () => {
+    // 1000 * 1.05^10 ≈ 1628.89
+    expect(calculateCompoundInterest(1000, 5, 10)).toBeCloseTo(1628.89, 2);
+  });
+
+  it("should return the same initial capital if years = 0", () => {
+    expect(calculateCompoundInterest(1000, 5, 0)).toBe(1000);
+  });
+
+  it("should handle zero interest rate (no growth)", () => {
+    expect(calculateCompoundInterest(2000, 0, 5)).toBe(2000);
+  });
+
+  it("should calculate correctly for other values", () => {
+    expect(calculateCompoundInterest(1500, 4, 6)).toBeCloseTo(1897.98, 2);
+  });
+
+  it("should handle negative interest (depreciation)", () => {
+    expect(calculateCompoundInterest(1000, -5, 3)).toBeCloseTo(857.375, 2);
   });
 });
 
