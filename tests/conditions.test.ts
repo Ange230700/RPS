@@ -83,5 +83,3 @@ describe("calculateAverage", () => {
     expect(calculateAverage([])).toBe("No grades to calculate.");
   });
 });
-
-// TODO: Test the following function:

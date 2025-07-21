@@ -43,5 +43,3 @@ export function calculateAverage(grades: number[]): string | number {
   const average = totalGrades / grades.length;
   return average;
 }
-
-// TODO: Implement the following function:
