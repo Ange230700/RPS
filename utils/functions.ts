@@ -5,11 +5,18 @@ export function saluer(nom: string): string {
   return message;
 }
 
+export function calculateVAT(priceHT: number): number {
+  const VATrate = 0.2;
+  const priceTTC = priceHT * (1 + VATrate);
+  return priceTTC;
+}
+
 // TODO: Implement the following function:
 
-// - Level 1: Greeting
-// - Create a function `saluer` that takes a parameter `nom`.
+// - Level 2: Calculating VAT
+// - Create a function `calculateVAT` that takes a parameter `priceHT` (price excluding tax).
+// - Inside the function, use `const` to declare a variable `VATrate` with a value of 0.2 (20%).
+//     - Calculate the price including tax using the formula `priceHT * (1 + VAT rate)` and store the result in a variable `priceTTC` with `const`.
 
-// - Inside the function, use `const` to declare a variable `message` that contains the string `“Hello, ” + name + “!”`.
-// - The function must return the variable `message`.
-// - Call the `greet` function with your first name and display the result in the console.
+// - The function must return `prixTTC`.
+// - Call the `calculerTVA` function with a price of your choice and display the result in the console.

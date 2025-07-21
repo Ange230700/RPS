@@ -1,7 +1,7 @@
 // tests\functions.test.ts
 
 import { describe, expect, it } from "vitest";
-import { saluer } from "~/utils/functions";
+import { calculateVAT, saluer } from "~/utils/functions";
 
 describe("saluer", () => {
   it("should return a greeting with the provided name", () => {
@@ -11,11 +11,29 @@ describe("saluer", () => {
   });
 });
 
+describe("calculateVAT", () => {
+  it("should return the correct price including VAT (20%)", () => {
+    expect(calculateVAT(100)).toBe(120);
+    expect(calculateVAT(50)).toBe(60);
+    expect(calculateVAT(0)).toBe(0);
+  });
+
+  it("should work with decimal prices", () => {
+    expect(calculateVAT(12.5)).toBeCloseTo(15, 5);
+    expect(calculateVAT(99.99)).toBeCloseTo(119.988, 5);
+  });
+
+  it("should handle negative prices", () => {
+    expect(calculateVAT(-10)).toBe(-12);
+  });
+});
+
 // TODO: Test the following function:
 
-// - Level 1: Greeting
-// - Create a function `saluer` that takes a parameter `nom`.
+// - Level 2: Calculating VAT
+// - Create a function `calculateVAT` that takes a parameter `priceHT` (price excluding tax).
+// - Inside the function, use `const` to declare a variable `VATrate` with a value of 0.2 (20%).
+//     - Calculate the price including tax using the formula `priceHT * (1 + VAT rate)` and store the result in a variable `priceTTC` with `const`.
 
-// - Inside the function, use `const` to declare a variable `message` that contains the string `“Hello, ” + name + “!”`.
-// - The function must return the variable `message`.
-// - Call the `greet` function with your first name and display the result in the console.
+// - The function must return `prixTTC`.
+// - Call the `calculerTVA` function with a price of your choice and display the result in the console.
