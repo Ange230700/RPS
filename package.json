@@ -8,7 +8,7 @@
     "commit": "git-cz",
     "commitlint": "commitlint --edit",
     "clean": "rm -rf node_modules package-lock.json dist",
-    "test": "vitest",
+    "test": "vitest --coverage",
     "lint": "eslint --cache --fix --ext .js,.mjs,.cjs,.ts,.mts,.cts .",
     "start": "tsx src/main.ts",
     "start:watch": "tsx watch src/main.ts",

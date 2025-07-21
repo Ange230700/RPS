@@ -52,3 +52,56 @@ describe("playRound", () => {
     expect(playRound("rock", fixedComp)).toMatch(/Player wins/);
   });
 });
+
+describe("isValidRounds - edge cases", () => {
+  it("returns false for non-integers", () => {
+    expect(isValidRounds(3.5)).toBe(false);
+    expect(isValidRounds(-3.5)).toBe(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(isValidRounds("3" as any)).toBe(false);
+  });
+
+  it("returns false for non-number values", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(isValidRounds(null as any)).toBe(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(isValidRounds(undefined as any)).toBe(false);
+    expect(isValidRounds(NaN)).toBe(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(isValidRounds({} as any)).toBe(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(isValidRounds([] as any)).toBe(false);
+  });
+
+  it("handles large numbers correctly", () => {
+    expect(isValidRounds(1_001)).toBe(true);
+    expect(isValidRounds(1_000)).toBe(false);
+  });
+});
+
+describe("playRound - edge cases", () => {
+  it("handles upper/lower/mixed case and whitespace", () => {
+    expect(playRound("  RoCk ")).toMatch(/rock/i);
+    expect(playRound(" PaPer ")).not.toMatch(/Invalid move/);
+    expect(playRound("\tSCISSORS\n")).not.toMatch(/Invalid move/);
+  });
+
+  it("handles invalid moves with extra whitespace or chars", () => {
+    expect(playRound("rock!")).toMatch(/Invalid move/);
+    expect(playRound("papers")).toMatch(/Invalid move/);
+  });
+
+  it("doesn't break on empty input", () => {
+    expect(playRound("")).toMatch(/Invalid move/);
+    expect(playRound("    ")).toMatch(/Invalid move/);
+  });
+});
+
+describe("getWinner - edge cases", () => {
+  it("handles unknown moves defensively", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(getWinner("lizard" as any, "spock" as any)).toBe("Computer wins");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(getWinner("rock", "spock" as any)).toBe("Computer wins");
+  });
+});

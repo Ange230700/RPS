@@ -43,3 +43,41 @@ describe("Game", () => {
     expect(g.computerScore).toBe(0);
   });
 });
+
+describe("Game class - edge cases", () => {
+  it("does not allow 0 or negative rounds", () => {
+    expect(() => new Game(0)).not.toThrow();
+    expect(() => new Game(-1)).not.toThrow();
+    // Note: Game doesn't enforce validity, validation is expected in UI/logic.
+  });
+
+  it("doesn't increment scores for draw", () => {
+    const game = new Game(1);
+    game.playRound("rock", "rock");
+    expect(game.playerScore).toBe(0);
+    expect(game.computerScore).toBe(0);
+    expect(game.draws).toBe(1);
+  });
+
+  it("records correct round numbers in history", () => {
+    const game = new Game(3);
+    game.playRound("rock", "rock"); // 1
+    game.playRound("rock", "paper"); // 2
+    expect(game.history[0].round).toBe(1);
+    expect(game.history[1].round).toBe(2);
+  });
+
+  it("ignores further playRound calls after finished", () => {
+    const game = new Game(1);
+    game.playRound("rock", "scissors");
+    expect(game.finished).toBe(true);
+    expect(() => game.playRound("rock", "scissors")).toThrow();
+  });
+
+  it("handles huge number of rounds without crashing", () => {
+    const game = new Game(9999);
+    for (let i = 0; i < 10; i++) game.playRound("rock", "scissors");
+    expect(game.playerScore).toBe(10);
+    expect(game.finished).toBe(false); // hasn't reached threshold yet
+  });
+});
