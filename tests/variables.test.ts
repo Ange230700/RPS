@@ -2,6 +2,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 import {
+  calculateTotal,
   displayFullName,
   displayMathOperations,
   displayNameAndAge,
@@ -44,9 +45,17 @@ describe("displayMathOperations", () => {
   });
 });
 
-// TODO: Test the following function:
+describe("calculateTotal", () => {
+  it("should return the correct total price", () => {
+    expect(calculateTotal(10, 5)).toBe(50);
+    expect(calculateTotal(0, 5)).toBe(0);
+    expect(calculateTotal(7.5, 3)).toBe(22.5);
+    expect(calculateTotal(12.5, 4)).toBe(50);
+  });
 
-// - Level 3: Math is fantastic
-// - Declare two variables `number1` and `number2` with numerical values of your choice.
-// - Calculate the sum, difference, product, and quotient of these two numbers and store the results in variables `sum`, `difference`, `product`, and `quotient`.
-// - Display the results in the console.
+  it("should handle negative quantities or unit prices", () => {
+    expect(calculateTotal(-10, 5)).toBe(-50);
+    expect(calculateTotal(10, -5)).toBe(-50);
+    expect(calculateTotal(-10, -5)).toBe(50);
+  });
+});

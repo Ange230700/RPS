@@ -29,9 +29,6 @@ export function displayMathOperations(): void {
   console.log("Quotient:", quotient);
 }
 
-// TODO: Implement the following function:
-
-// - Level 3: Math is fantastic
-// - Declare two variables `number1` and `number2` with numerical values of your choice.
-// - Calculate the sum, difference, product, and quotient of these two numbers and store the results in variables `sum`, `difference`, `product`, and `quotient`.
-// - Display the results in the console.
+export function calculateTotal(unitPrice: number, quantity: number): number {
+  return unitPrice * quantity;
+}
