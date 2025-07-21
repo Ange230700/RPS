@@ -1,7 +1,12 @@
 // tests\conditions.test.ts
 
 import { describe, expect, it } from "vitest";
-import { checkParity, sumOddNumbers } from "~/utils/conditions";
+import {
+  calculateAverage,
+  checkParity,
+  findLargestNumber,
+  sumOddNumbers,
+} from "~/utils/conditions";
 
 describe("checkParity", () => {
   it("should return 'The number is even.' for even numbers", () => {
@@ -34,14 +39,49 @@ describe("sumOddNumbers", () => {
   });
 });
 
+describe("findLargestNumber", () => {
+  it("should return the largest number in an array of positives", () => {
+    expect(findLargestNumber([1, 5, 3, 9, 2])).toBe(9);
+  });
+
+  it("should return the largest number in an array with negatives", () => {
+    expect(findLargestNumber([-10, -5, -3, -20])).toBe(-3);
+  });
+
+  it("should return the number itself if array has one element", () => {
+    expect(findLargestNumber([42])).toBe(42);
+  });
+
+  it("should handle array with all equal elements", () => {
+    expect(findLargestNumber([5, 5, 5, 5])).toBe(5);
+  });
+
+  it("should return undefined for an empty array", () => {
+    expect(findLargestNumber([])).toBeUndefined();
+  });
+});
+
+describe("calculateAverage", () => {
+  it("should return the correct average for a non-empty array", () => {
+    expect(calculateAverage([15, 17, 19])).toBe(17);
+    expect(calculateAverage([10, 20])).toBe(15);
+    expect(calculateAverage([5])).toBe(5);
+    expect(calculateAverage([0, 0, 0, 0])).toBe(0);
+  });
+
+  it("should handle negative numbers", () => {
+    expect(calculateAverage([-10, 10])).toBe(0);
+    expect(calculateAverage([-5, -15, -10])).toBe(-10);
+  });
+
+  it("should return a float average when necessary", () => {
+    expect(calculateAverage([15, 16])).toBe(15.5);
+    expect(calculateAverage([1, 2, 3])).toBe(2);
+  });
+
+  it('should return "No grades to calculate." for an empty array', () => {
+    expect(calculateAverage([])).toBe("No grades to calculate.");
+  });
+});
+
 // TODO: Test the following function:
-
-// - Level 3: Where's Nemo?
-// - Create a function `findLargestNumber` that takes a parameter `array` (an array of numbers).
-// - Use `let` to declare a variable `largest` initialized to the first element of the array.
-// - Use a `for` loop to iterate over each element of the array.
-
-// - Inside the loop, use an `if` condition to check if the current element is greater than `bigger`.
-// - If so, update `bigger` with that element.
-// - The function should return `bigger`.
-// - Test the function with different arrays and display the results in the console.

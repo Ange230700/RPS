@@ -18,14 +18,30 @@ export function sumOddNumbers(limit: number): number {
   return sum;
 }
 
+export function findLargestNumber(array: number[]): number | undefined {
+  if (array.length === 0) return undefined; // Handle empty array gracefully
+
+  let biggest = array[0];
+  for (let i = 1; i < array.length; i++) {
+    if (array[i] > biggest) {
+      biggest = array[i];
+    }
+  }
+  return biggest;
+}
+
+export function calculateAverage(grades: number[]): string | number {
+  let totalGrades = 0;
+  for (const grade of grades) {
+    totalGrades += grade;
+  }
+
+  if (grades.length === 0) {
+    return "No grades to calculate.";
+  }
+
+  const average = totalGrades / grades.length;
+  return average;
+}
+
 // TODO: Implement the following function:
-
-// - Level 3: Where's Nemo?
-// - Create a function `findLargestNumber` that takes a parameter `array` (an array of numbers).
-// - Use `let` to declare a variable `largest` initialized to the first element of the array.
-// - Use a `for` loop to iterate over each element of the array.
-
-// - Inside the loop, use an `if` condition to check if the current element is greater than `bigger`.
-// - If so, update `bigger` with that element.
-// - The function should return `bigger`.
-// - Test the function with different arrays and display the results in the console.
