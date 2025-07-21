@@ -1,7 +1,11 @@
 // tests/loops.test.ts
 
 import { describe, it, expect, vi } from "vitest";
-import { calculateFactorial, displayEvenNumbers } from "~/utils/loops";
+import {
+  calculateFactorial,
+  displayEvenNumbers,
+  findElement,
+} from "~/utils/loops";
 
 describe("displayEvenNumbers", () => {
   it("should log only even numbers up to the given limit", () => {
@@ -42,17 +46,41 @@ describe("calculateFactorial", () => {
   });
 });
 
+describe("findElement", () => {
+  it("should log and return correct message when element is found", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const arr = [5, 12, 23, 9, 34, 12];
+    const result = findElement(arr, 9);
+    expect(logSpy).toHaveBeenCalledWith("Element found at index: 3");
+    expect(result).toBe("Element found at index: 3");
+    logSpy.mockRestore();
+  });
+
+  it("should return 'Element not found.' when element does not exist", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const arr = [5, 12, 23, 9, 34, 12];
+    const result = findElement(arr, 99);
+    expect(logSpy).not.toHaveBeenCalled();
+    expect(result).toBe("Element not found.");
+    logSpy.mockRestore();
+  });
+
+  it("should return 'Element not found.' for empty array", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const result = findElement([], 1);
+    expect(logSpy).not.toHaveBeenCalled();
+    expect(result).toBe("Element not found.");
+    logSpy.mockRestore();
+  });
+
+  it("should find first occurrence if multiple exist", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const arr = [5, 9, 9, 9];
+    const result = findElement(arr, 9);
+    expect(logSpy).toHaveBeenCalledWith("Element found at index: 1");
+    expect(result).toBe("Element found at index: 1");
+    logSpy.mockRestore();
+  });
+});
+
 // TODO: Test the following function:
-
-// - Level 3: Where's Nemo
-// - Create a function `findElement` that takes two parameters: `array` (an array of numbers) and `element` (a number to search for).
-// - Use a `for` loop to iterate through each element of the array.
-
-// - If the element is found, use `const` to declare a variable `message` that contains the string `“Element found at index: ” + index`.
-// - If the element is not found after the loop, return `“Element not found.”`.
-// - The function should display `message` if the element is found.
-
-// - Test the function with different arrays and elements, and display the results in the console.
-// - Example data
-// - Array: ``[5, 12, 23, 9, 34, 12]``
-// - Element to search for: `9`
