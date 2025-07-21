@@ -2,7 +2,7 @@
 
 import { Game } from "~/src/game";
 import { GameRenderer } from "~/src/GameRenderer";
-import { isValidRounds } from "~/utils";
+import { isValidRounds, loadGameState } from "~/utils";
 
 const app = document.getElementById("app")!;
 if (!app) throw new Error("App element not found");
@@ -10,8 +10,23 @@ if (!app) throw new Error("App element not found");
 let game: Game;
 let renderer: GameRenderer;
 
-function startNewGame(rounds: number) {
-  game = new Game(rounds);
+function startNewGame(rounds?: number) {
+  const saved = loadGameState();
+  if (
+    saved &&
+    isValidRounds(saved.rounds) &&
+    (!rounds || rounds === saved.rounds)
+  ) {
+    game = new Game(saved.rounds);
+    game.playerScore = saved.playerScore;
+    game.computerScore = saved.computerScore;
+    game.draws = saved.draws;
+    game.history = saved.history;
+    game.roundNum = saved.history.length + 1;
+    game.finished = true;
+  } else {
+    game = new Game(rounds ?? 3);
+  }
   renderer = new GameRenderer({
     app,
     game,
@@ -42,11 +57,4 @@ function handleRoundsChange(n: number) {
   }
 }
 
-renderer = new GameRenderer({
-  app,
-  game: {} as Game,
-  onMove: () => {},
-  onRoundsChange: handleRoundsChange,
-  onRestart: () => {},
-});
-renderer.renderInitialRoundsPrompt();
+startNewGame();

@@ -3,6 +3,7 @@
 import type { Game } from "~/src/game";
 import type { Move } from "~/types";
 import { MOVES } from "~/types";
+import { saveGameState, clearGameState } from "~/utils";
 
 export class GameRenderer {
   private readonly app: HTMLElement;
@@ -146,9 +147,19 @@ export class GameRenderer {
       this.endGamePanel(game);
 
     if (game.finished) {
+      saveGameState({
+        rounds: game.rounds,
+        playerScore: game.playerScore,
+        computerScore: game.computerScore,
+        draws: game.draws,
+        history: game.history,
+      });
       const restartBtn = document.getElementById("restart-btn");
       if (restartBtn) {
-        restartBtn.onclick = () => this.onRestart();
+        restartBtn.onclick = () => {
+          clearGameState();
+          this.onRestart();
+        };
       }
       const form = this.app.querySelector("form");
       if (form) {

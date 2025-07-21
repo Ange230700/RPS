@@ -59,3 +59,34 @@ export function showScore(
 export function isValidRounds(n: number) {
   return Number.isInteger(n) && n > 0 && n % 2 === 1;
 }
+
+export const STORAGE_KEY = "rps:last_game";
+
+export function saveGameState(game: {
+  rounds: number;
+  playerScore: number;
+  computerScore: number;
+  draws: number;
+  history: {
+    round: number;
+    player: string;
+    computer: string;
+    result: string;
+  }[];
+}) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(game));
+}
+
+export function loadGameState() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export function clearGameState() {
+  localStorage.removeItem(STORAGE_KEY);
+}
