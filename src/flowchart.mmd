@@ -1,0 +1,28 @@
+%% src\flowchart.mmd
+
+flowchart TD
+    Start([Start Game])
+    PlayerMove[Player chooses: rock, paper, or scissors]
+    ComputerMove[Computer chooses: rock, paper, or scissors]
+    Judge[Compare moves]
+    Draw{Same move?}
+    PlayerWins{Player beats computer?}
+    PlayerWin[Player wins round]
+    ComputerWin[Computer wins round]
+    Result[Show result: win / lose / draw]
+    NextRound{More rounds?}
+    End([End Game])
+
+    Start --> PlayerMove
+    PlayerMove --> ComputerMove
+    ComputerMove --> Judge
+    Judge --> Draw
+    Draw -- Yes --> Result
+    Draw -- No --> PlayerWins
+    PlayerWins -- Yes --> PlayerWin
+    PlayerWins -- No --> ComputerWin
+    PlayerWin --> Result
+    ComputerWin --> Result
+    Result --> NextRound
+    NextRound -- Yes --> PlayerMove
+    NextRound -- No --> End
