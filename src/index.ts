@@ -3,12 +3,15 @@
 import { renderGuessGame } from "~/src/pages/GuessGame";
 import { renderHome } from "~/src/pages/Home";
 import { renderRockPaperScissors } from "~/src/pages/RockPaperScissors";
+import { renderShoppingList } from "~/src/pages/ShoppingList";
 
 const app = document.getElementById("app")!;
 
 function router() {
   const hash = window.location.hash || "#/";
-  if (hash === "#/guess") {
+  if (hash === "#/shopping") {
+    renderShoppingList(app);
+  } else if (hash === "#/guess") {
     renderGuessGame(app);
   } else if (hash === "#/" || hash === "") {
     renderHome(app);
