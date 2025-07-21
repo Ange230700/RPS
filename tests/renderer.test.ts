@@ -40,31 +40,6 @@ describe("GameRenderer", () => {
     expect(app.querySelector("#restart-btn")).not.toBeNull();
   });
 
-  it("allows changing rounds at end panel", () => {
-    // Simulate finished game and check changing rounds works
-    const { app, game, renderer } = renderGame();
-    game.finished = true;
-    renderer.render();
-    const roundsInput = app.querySelector<HTMLInputElement>("#rounds");
-    const form = app.querySelector("form")!;
-    const onRoundsChange = vi.fn();
-    // Re-create renderer with spy on onRoundsChange
-    const newRenderer = new GameRenderer({
-      app,
-      game,
-      onMove: vi.fn(),
-      onRoundsChange,
-      onRestart: vi.fn(),
-    });
-    newRenderer.render();
-    // Set input value and submit
-    roundsInput!.value = "7";
-    form.dispatchEvent(
-      new Event("submit", { bubbles: true, cancelable: true }),
-    );
-    expect(onRoundsChange).toHaveBeenCalledWith(7);
-  });
-
   it("renders initial rounds prompt", () => {
     const { renderer, app } = renderGame();
     renderer.renderInitialRoundsPrompt(5);

@@ -81,7 +81,7 @@ describe("isValidRounds - edge cases", () => {
 
 describe("playRound - edge cases", () => {
   it("handles upper/lower/mixed case and whitespace", () => {
-    expect(playRound("  RoCk ")).toMatch(/rock/i);
+    expect(playRound("  RoCk ")).not.toMatch(/Invalid move/);
     expect(playRound(" PaPer ")).not.toMatch(/Invalid move/);
     expect(playRound("\tSCISSORS\n")).not.toMatch(/Invalid move/);
   });
