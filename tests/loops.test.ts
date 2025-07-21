@@ -106,5 +106,3 @@ describe("calculateCompoundInterest", () => {
     expect(calculateCompoundInterest(1000, -5, 3)).toBeCloseTo(857.375, 2);
   });
 });
-
-// TODO: Test the following function:

@@ -38,5 +38,3 @@ export function calculateCompoundInterest(
   }
   return totalAmount;
 }
-
-// TODO: Implement the following function:
