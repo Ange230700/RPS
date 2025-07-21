@@ -1,60 +1,23 @@
 // src/index.ts
 
-import { Game } from "~/src/game";
-import { GameRenderer } from "~/src/GameRenderer";
-import { isValidRounds, loadGameState } from "~/utils";
+import { renderGuessGame } from "~/src/pages/GuessGame";
+import { renderHome } from "~/src/pages/Home";
+import { renderRockPaperScissors } from "~/src/pages/RockPaperScissors";
 
 const app = document.getElementById("app")!;
-if (!app) throw new Error("App element not found");
 
-let game: Game;
-let renderer: GameRenderer;
-
-function startNewGame(rounds?: number) {
-  const saved = loadGameState();
-  if (
-    saved &&
-    isValidRounds(saved.rounds) &&
-    (!rounds || rounds === saved.rounds)
-  ) {
-    game = new Game(saved.rounds);
-    game.playerScore = saved.playerScore;
-    game.computerScore = saved.computerScore;
-    game.draws = saved.draws;
-    game.history = saved.history;
-    game.roundNum = saved.history.length + 1;
-    game.finished = true;
+function router() {
+  const hash = window.location.hash || "#/";
+  if (hash === "#/guess") {
+    renderGuessGame(app);
+  } else if (hash === "#/" || hash === "") {
+    renderHome(app);
+  } else if (hash === "#/rps") {
+    renderRockPaperScissors(app);
   } else {
-    game = new Game(rounds ?? 3);
-  }
-  renderer = new GameRenderer({
-    app,
-    game,
-    onMove: handlePlayerMove,
-    onRoundsChange: handleRoundsChange,
-    onRestart: () => {
-      startNewGame(game.rounds);
-      renderer.render();
-    },
-  });
-  renderer.render();
-}
-
-function handlePlayerMove(move: string) {
-  if (game.finished) return;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  game.playRound(move as any);
-  renderer.render();
-}
-
-function handleRoundsChange(n: number) {
-  if (isValidRounds(n)) {
-    startNewGame(n);
-    renderer.render();
-  } else {
-    alert("Number of rounds must be a positive odd number!");
-    renderer.renderInitialRoundsPrompt();
+    app.innerHTML = `<div class="text-center my-10 text-red-600">404 - Page Not Found</div>`;
   }
 }
 
-startNewGame();
+window.addEventListener("hashchange", router);
+window.addEventListener("DOMContentLoaded", router);
