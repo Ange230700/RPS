@@ -1,25 +1,15 @@
 // utils\index.ts
 
 import type { Move, Result } from "~/types";
+import { MOVES } from "~/types";
 
 export function getComputerMove(): Move {
-  const moves: Move[] = ["rock", "paper", "scissors"];
-  const randomIndex = Math.floor(Math.random() * moves.length);
-  return moves[randomIndex];
+  const randomIndex = Math.floor(Math.random() * MOVES.length);
+  return MOVES[randomIndex];
 }
 
-export function getWinner(
-  player: string,
-  computer: string,
-): Result | "Invalid input" {
-  const moves = ["rock", "paper", "scissors"];
-  if (!moves.includes(player) || !moves.includes(computer)) {
-    return "Invalid input";
-  }
-
-  if (player === computer) {
-    return "Draw";
-  }
+export function getWinner(player: Move, computer: Move): Result {
+  if (player === computer) return "Draw";
 
   if (
     (player === "rock" && computer === "scissors") ||
@@ -36,7 +26,7 @@ export function playRound(
   input: string,
   getCompMove: () => Move = getComputerMove,
 ): string {
-  const playerMove = input.trim().toLowerCase();
+  const playerMove = input.trim().toLowerCase() as Move;
   const moves = ["rock", "paper", "scissors"];
   if (!moves.includes(playerMove)) {
     return "Invalid move. Please choose rock, paper, or scissors.";
@@ -66,24 +56,6 @@ export function showScore(
   );
 }
 
-export function handleRoundResult(
-  result: string,
-  input: string,
-  playerScore: number,
-  computerScore: number,
-  draws: number,
-): { playerScore: number; computerScore: number; draws: number } {
-  alert(result);
-
-  const regex = /Computer chose (\w+)\./;
-  const match = regex.exec(result);
-  const computerMove = match ? match[1] : "";
-  const playerMove = input.trim().toLowerCase();
-  const winner = getWinner(playerMove, computerMove);
-
-  if (winner === "Player wins") playerScore++;
-  else if (winner === "Computer wins") computerScore++;
-  else if (winner === "Draw") draws++;
-
-  return { playerScore, computerScore, draws };
+export function isValidRounds(n: number) {
+  return Number.isInteger(n) && n > 0 && n % 2 === 1;
 }
