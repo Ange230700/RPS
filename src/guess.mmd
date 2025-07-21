@@ -1,0 +1,27 @@
+%% src\guess.mmd
+
+flowchart TD
+    Start([Start Game])
+    SelectRiddle[Select random riddle]
+    ShowClue[Display clue to user]
+    WaitInput[Wait for user input]
+    OnSubmit[User submits answer]
+    Lowercase[Convert input to lowercase]
+    CheckCorrect{Is answer correct?}
+    Correct[Show feedback: Correct! in green]
+    Incorrect[Show feedback: Incorrect. in red]
+    PlayAgain{Play again?}
+    End([End Game])
+
+    Start --> SelectRiddle
+    SelectRiddle --> ShowClue
+    ShowClue --> WaitInput
+    WaitInput --> OnSubmit
+    OnSubmit --> Lowercase
+    Lowercase --> CheckCorrect
+    CheckCorrect -- Yes --> Correct
+    CheckCorrect -- No --> Incorrect
+    Correct --> PlayAgain
+    Incorrect --> PlayAgain
+    PlayAgain -- Yes --> SelectRiddle
+    PlayAgain -- No --> End

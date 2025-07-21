@@ -1,0 +1,24 @@
+%% src\shopping.mmd
+
+flowchart TD
+    Start([Open Shopping List])
+    DisplayList[Display shopping list]
+    WaitAction{Add item / Click item?}
+    AddItem[User enters name and clicks Add]
+    AddObj[Add  name, achete: false  to array]
+    UpdateList[Re-render list]
+    ClickItem[User clicks an item]
+    ToggleAchete[Toggle item's achete property]
+    End([End])
+
+    Start --> DisplayList
+    DisplayList --> WaitAction
+    WaitAction -- Add item --> AddItem
+    AddItem --> AddObj
+    AddObj --> UpdateList
+    UpdateList --> WaitAction
+    WaitAction -- Click item --> ClickItem
+    ClickItem --> ToggleAchete
+    ToggleAchete --> UpdateList
+    WaitAction -- Nothing --> End
+
